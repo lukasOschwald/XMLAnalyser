@@ -32,20 +32,28 @@ def convert_excel_to_json():
             return False
 
         df = pd.read_excel(excel_path)
-        df.columns = df.columns.str.strip()
+        # Агрессивная очистка названий колонок
+        df.columns = df.columns.map(lambda x: str(x).strip().replace('\xa0', '').replace(' ', ''))
 
-        required_columns = {"XML-Tag", "frontendBuilder Feld", "Bedeutung"}
+        logging.info("📋 Excel-Spalten: %s", df.columns.tolist())
+
+        required_columns = {"XML-Tag", "frontendBuilder Feld", "Bedeutung", "Block"}
         if not required_columns.issubset(df.columns):
             logging.error("❌ Die Excel-Datei enthält nicht alle erforderlichen Spalten.")
             return False
 
         tag_dict = {}
         for _, row in df.iterrows():
-            tag = str(row["XML-Tag"]).strip()
+            logging.debug("🔍 Zeile: %s", row.to_dict())  # Подробная отладка по строкам
+            tag = str(row["XML-Tag"]).strip().replace("<", "").replace(">", "")
+            block = str(row["Block"]).strip()
             frontend = str(row["frontendBuilder Feld"]).strip()
             bedeutung = str(row["Bedeutung"]).strip()
-            if tag:
-                tag_dict[tag] = {
+
+            if tag and block:
+                if block not in tag_dict:
+                    tag_dict[block] = {}
+                tag_dict[block][tag] = {
                     "frontend": frontend,
                     "bedeutung": bedeutung
                 }
