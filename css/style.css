@@ -1,10 +1,65 @@
-/* Provisorische Styleinformation zu Testzwecken. Können komplett gelöscht oder beliebig geändert werden */
-body {
-    background-color: powderblue;
+/* Grundstil für den gesamten Körper der Seite */
+body { font-family: sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+/* Seitenleiste */
+#sidebar { width: 250px; background: #f0f0f0; border-right: 1px solid #ccc; padding: 10px; overflow-y: auto; box-sizing: border-box; }
+/* Stil für die Dateieingabe */
+#fileInput { margin-bottom: 10px; }
+/* Stil für das Suchfeld */
+#fileSearch { width: 100%; margin-bottom: 5px; padding: 4px; box-sizing: border-box; }
+/* Stil für die Dateiliste */
+#fileList { list-style: none; padding: 0; margin: 0; }
+#fileList li { padding: 5px; cursor: pointer; border-radius: 4px; }
+#fileList li:hover { background: #ddd; }
+#fileList li.selected { background: #bbb; font-weight: bold; }
+/* Stil für den Baumcontainer */
+#tree { flex-grow: 1; overflow: auto; }
+/* Stil für die Knoten (Kreise) im Baum */
+/*.node circle { fill: #fff; stroke: steelblue; stroke-width: 1.5px; }*/
+/* Stil für die Textanzeigen innerhalb der Knoten */
+.node.text { font: 12px sans-serif; pointer-events: none; }
+/* Stil für die Verbindungen zwischen den Knoten */
+.link { fill: none; stroke: #ccc; stroke-width: 1.5px; }
+/* Tooltip-Stil */
+.tooltip {
+  position: absolute;
+  text-align: left;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid #999;
+  padding: 5px;
+  font-size: 12px;
+  pointer-events: none;
+  border-radius: 4px;
+}
+/* Stil für die Anzeige des Tags */
+#tagValue {
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  display: none;
+}
+/* Stil für die Anzeige der Item-ID */
+.item-id {
+  font-size: 12px;
+  color: #888;
+  padding-top: 5px;
+}
+/* Stil für SVG */
+svg {
+    width: 100vw;
+    height: 100vh;
   }
-  h1 {
-    color: blue;
+/* Stil für die Rechtecke der Knoten */
+.node rect {
+    stroke: steelblue;
+    stroke-width: 2px;
+    rx: 6;
+    ry: 6;
+    transition: all 0.3s ease;
   }
-  p {
-    color: red;
+/* Stil für den Text innerhalb der Knoten */
+.node text {
+    font-size: 12px;
+    pointer-events: none;
+    text-anchor: middle;
   }
