@@ -161,8 +161,14 @@ function update(source) {
           alert(`Datei ${fileName} wurde noch nicht hochgeladen.`); // Fehlende Datei: Anzeige einer Warnung.
         }
       } else {
-        d.children = d.children ? null : d._children; // Wechsel der Sichtbarkeit der Kind-Elemente
-        d._children = d.children ? null : d._children;
+        if (d.children) {
+          d._children = d.children;
+          d.children = null;
+        } else if (d._children) {
+          d.children = d._children;
+          d._children = null;
+        }
+        
         update(d); // Aktualisierung des Baumes
       }
       console.log("d =", d, "x =", d.x, "y =", d.y); 
