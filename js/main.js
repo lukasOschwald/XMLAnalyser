@@ -63,6 +63,7 @@ function updateFileList() {
   }
 }
 
+
 /* Funktion zum Anzeigen des Baums */
 function showTree(data) {
   currentRoot = data;
@@ -114,6 +115,26 @@ function collapse(d) {
   }
 }
 
+function loadTreeByBlockId(blockIdValue) {
+  if (!blockIdValue) return;
+
+  let targetFileName = blockIdValue.trim();
+
+  // Если расширение отсутствует — добавим .GEN
+  if (!targetFileName.toUpperCase().endsWith('.GEN')) {
+    targetFileName += '.GEN';
+  }
+  console.log("Ищу:", targetFileName);
+  console.log("Available files in fileMap:", Array.from(fileMap.keys()));
+
+  if (fileMap.has(targetFileName)) {
+    const targetJson = jsonMap.get(targetFileName);
+    showTree(targetJson); // Показ дерева нового файла
+  } else {
+    alert(`Datei ${targetFileName} wurde noch nicht hochgeladen.`);
+  }
+}
+
 
 function update(source) {
   const treeData = treeLayout(root); // Verarbeitung des Baums basierend auf aktuellen Daten
@@ -152,15 +173,11 @@ function update(source) {
         }
       }
 
-      if (d.data.BLOCKID) { // Vorhandensein von BLOCKID: Versuch, eine andere Datei zu laden.
-        const fileName = d.data.BLOCKID;
-        if (fileMap.has(fileName)) { // Vorhandensein der Datei: Anzeige des Baumes.
-
-          showTree(jsonMap.get(fileName));
-        } else {
-          alert(`Datei ${fileName} wurde noch nicht hochgeladen.`); // Fehlende Datei: Anzeige einer Warnung.
-        }
-      } else {
+      if (d.data.name === "BLOCKID" && d.data.value) {
+        loadTreeByBlockId(d.data.value);
+        return;
+      }
+       else {
         if (d.children) {
           d._children = d.children;
           d.children = null;
